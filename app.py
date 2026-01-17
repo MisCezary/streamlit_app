@@ -65,11 +65,11 @@ col1, col2, col3 = st.columns(3)
 with col1:
     fare_amount = st.number_input("Opłata podstawowa ($)", 3.0, 300.0, 18.5)
     ratecode = st.selectbox('Kod taryfy', [1,2,3,4,5,6])
-    congestion_surcharge = st.number_input("Congestion surcharge ($)", 0.0, 10.0, 2.75)
+    congestion_surcharge = st.number_input("Opłata za przejazd w godzinach szczytu ($)", 0.0, 10.0, 2.75)
     
 with col2:
-    extra = st.number_input("Extra charges ($)", 0.0, 20.0, 0.5)
-    airport_fee = st.number_input("Airport fee ($)", 0.0, 10.0, 0.0)
+    extra = st.number_input("Dodatkowe opłaty ($)", 0.0, 20.0, 0.5)
+    airport_fee = st.number_input("Podatek lotniskowy ($)", 0.0, 10.0, 0.0)
     payment_type = st.selectbox(
         "Typ płatności",
         ["Karta", "Gotówka", "Brak opłaty", "Spór"]
@@ -86,7 +86,7 @@ with col3:
     is_short_trip_map = {"Krótki":0, "Długi":1}
     is_short_trip_int = is_short_trip_map[is_short_trip]
     
-    improvement_surcharge = st.number_input("improvement_surcharge ($)", 0.0, 1.0, 0.1)
+    improvement_surcharge = st.number_input("Opłata za poprawę jakości usług ($)", 0.0, 1.0, 0.1)
     
 
 # FEATURE ENGINEERING
