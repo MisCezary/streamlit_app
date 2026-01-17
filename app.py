@@ -5,21 +5,21 @@ import pandas as pd
 import plotly.express as px
 import json
 
-# ================= PAGE CONFIG =================
+# PAGE CONFIG 
 st.set_page_config(
     page_title="NYC Taxi - sprawdź napiwek $$",
     page_icon="🚕",
     layout="wide"
 )
 
-# ================= LOAD MODELS =================
+# LOAD MODELS
 with open("xgb_classifier_model.pkl", "rb") as f:
     tip_classifier = pickle.load(f)
 
 with open("xgb_regression_model.pkl", "rb") as f:
     tip_regressor = pickle.load(f)
 
-# ================= STYLES =================
+# STYLES
 st.markdown("""
 <style>
 .stApp {
@@ -49,15 +49,15 @@ section[data-testid="stSidebar"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ================= SIDEBAR =================
+# SIDEBAR
 st.sidebar.title("🚕 NYC Taxi ML projekt")
 st.sidebar.markdown("**Sprawdź czy i jaki napiwek dostaniesz** 💵")
 
-# ================= HEADER =================
+# HEADER 
 st.markdown("# 🚕 NYC TAXI - ")
 st.markdown("### 💸 Czy klient zostawi napiwek? W jakiej wysokości?")
 
-# ================= INPUTS =================
+# INPUTS
 st.markdown("## 📥 Wprowadź szczegółowe dane przejazdu")
 
 col1, col2, col3 = st.columns(3)
@@ -89,7 +89,7 @@ with col3:
     improvement_surcharge = st.number_input("improvement_surcharge ($)", 0.0, 1.0, 0.1)
     
 
-# ================= FEATURE ENGINEERING =================
+# FEATURE ENGINEERING
 fare_extras_sum = congestion_surcharge + extra + airport_fee + improvement_surcharge 
 
 X = np.array([[
@@ -105,7 +105,7 @@ X = np.array([[
     improvement_surcharge # 9
 ]], dtype=float)
 
-# ================= PREDICTION =================
+# PREDICTION
 if st.button("💵 Sprawdź czy będzie extra cash"):
     tip_given = tip_classifier.predict(X)[0]
 
@@ -113,7 +113,7 @@ if st.button("💵 Sprawdź czy będzie extra cash"):
 
     if tip_given == 1:
         tip_amount = tip_regressor.predict(X)[0]
-        tip_amount = max(0, tip_amount)  # zabezpieczenie przed ujemnym napiwkiem
+        tip_amount = max(0, tip_amount) 
         st.markdown(
             f"""
             <div class="card">
@@ -133,7 +133,3 @@ if st.button("💵 Sprawdź czy będzie extra cash"):
             """,
             unsafe_allow_html=True
         )
-
-# ================= DEBUG =================
-# st.write("DEBUG – wektor X:", X)
-
