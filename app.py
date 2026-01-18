@@ -16,7 +16,7 @@ st.set_page_config(
 with open("xgb_classifier_model.pkl", "rb") as f:
     tip_classifier = pickle.load(f)
 
-with open("xgb_regression_model.pkl", "rb") as f:
+with open("best_regressor_tip_ratio.pkl", "rb") as f:
     tip_regressor = pickle.load(f)
 
 # STYLES
@@ -72,9 +72,9 @@ with col2:
     airport_fee = st.number_input("Podatek lotniskowy ($)", 0.0, 10.0, 0.0)
     payment_type = st.selectbox(
         "Typ płatności",
-        ["Karta", "Gotówka", "Brak opłaty", "Spór"]
+        ["Karta", "Gotówka"]
     )
-    payment_type_map = {"Karta":1, "Gotówka":2, "Brak opłaty":3, "Spór":4}
+    payment_type_map = {"Karta":1, "Gotówka":2}
     payment_type_int = payment_type_map[payment_type]
 
 with col3:
@@ -114,6 +114,7 @@ if st.button("💵 Sprawdź czy będzie extra cash"):
     if tip_given == 1:
         tip_amount = tip_regressor.predict(X)[0]
         tip_amount = max(0, tip_amount) 
+        tip_amount = tip_amount * fare_amount
         st.markdown(
             f"""
             <div class="card">
